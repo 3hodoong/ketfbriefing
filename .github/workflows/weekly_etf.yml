@@ -1,0 +1,45 @@
+name: Weekly ETF Brief
+
+on:
+  schedule:
+    # UTC 일요일 22:00 = 한국시간 월요일 07:00
+    - cron: '0 22 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 라이브러리 설치
+        run: pip install -r requirements.txt
+
+      - name: 주간 브리핑 생성 및 전송
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python weekly_etf_brief.py
+
+      - name: 아카이브 커밋
+        if: success()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase || true
+          git add archive_weekly/ || true
+          git diff --staged --quiet || git commit -m "weekly: $(date -u +%Y-%m-%d)"
+          git push || true
