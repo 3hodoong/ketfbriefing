@@ -134,7 +134,7 @@ def fetch_quotes(mapping, label=""):
                 "name": name,
                 "last": last,
                 "chg_pct": chg,
-                "date": close.index[-1].strftime("%Y-%m-%d"),
+                "date": close.index[-1].strftime("%Y-%m-%d(%a)"),
             })
         except Exception:
             continue
@@ -192,6 +192,7 @@ SYSTEM_PROMPT = """당신은 한국 금융시장 실무자를 위한 데일리 �
 
 작성 원칙:
 - 한국어로 작성. 문어체가 아닌 평이하고 직설적인 문장. 미사여구 금지.
+- 데이터에 명시되지 않은 요일은 절대 추론해서 쓰지 말 것.
 - 숫자는 반드시 제공된 데이터에서만 인용. 없는 숫자를 지어내지 말 것.
 - 데이터에 없는 사실은 쓰지 말 것. 불확실하면 언급하지 않는 편이 낫다.
 - 해석을 덧붙이되 단정하지 말 것. "~로 보인다", "~가 배경으로 지목된다" 수준.
