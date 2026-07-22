@@ -2,8 +2,8 @@ name: Weekly ETF Brief
 
 on:
   schedule:
-    # UTC 일요일 22:00 = 한국시간 월요일 06:35
-    - cron: '35 21 * * 0'
+    - cron: '0 7 * * 1'
+      timezone: "Asia/Seoul"
   workflow_dispatch:
 
 permissions:
