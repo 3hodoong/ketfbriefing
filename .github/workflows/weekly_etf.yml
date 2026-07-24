@@ -34,12 +34,3 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python weekly_etf_brief.py
 
-      - name: 아카이브 커밋
-        if: success()
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase || true
-          git add archive_weekly/ || true
-          git diff --staged --quiet || git commit -m "weekly: $(date -u +%Y-%m-%d)"
-          git push || true
