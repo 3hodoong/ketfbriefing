@@ -9,7 +9,7 @@ on:
 jobs:
   brief:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: 저장소 체크아웃
