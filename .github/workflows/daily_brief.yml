@@ -2,16 +2,14 @@ name: Daily Market Brief
 
 on:
   schedule:
+    # UTC 22:00 = 한국시간 익일 07:00 (화~토)
     - cron: '0 22 * * 1-5'
-  workflow_dispatch:        # 수동 실행 버튼
-
-permissions:
-  contents: write
+  workflow_dispatch:
 
 jobs:
   brief:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: 저장소 체크아웃
@@ -32,4 +30,3 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python market_brief.py
-
