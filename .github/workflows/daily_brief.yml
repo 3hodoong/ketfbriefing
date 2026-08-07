@@ -3,7 +3,7 @@ name: Daily Market Brief
 on:
   schedule:
     # UTC 21:05 = 한국시간 익일 06:05 (화~토)
-    - cron: '30 16 * * 1-5'
+    - cron: '10 16 * * 1-5'
   workflow_dispatch:
 
 jobs:
